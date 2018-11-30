@@ -6,8 +6,8 @@ n_population: 5
 n_parents: 0
 n_elite: 1
 n_gen: 10
-log_gen: 0
-save_gen: 0
+log_gen: 1
+save_gen: 10
 p_crossover: 0.0
 p_mutation: 1.0
 m_rate: 0.3

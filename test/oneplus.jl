@@ -1,10 +1,11 @@
-using Statistics
 using YAML
+using Distributed
+@everywhere using Statistics
 
 function test_oneplus_evo(evaluation::Function, n_fitness::Int64)
     cfg = YAML.load_file("cfg/oneplus.yaml")
     cfg["n_fitness"] = n_fitness
-    e = Evolution(Darwin.FloatIndividual, cfg; logfile="test.log")
+    e = Evolution(Darwin.FloatIndividual, cfg; id="test")
     e.mutation = x->Darwin.uniform_mutation(x; m_rate=cfg["m_rate"])
     e.evaluation = evaluation
 
