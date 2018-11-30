@@ -28,7 +28,7 @@ function populate!(e::Evolution)
         child = deepcopy(p1)
         if rand() < e.cfg["p_crossover"]
             parents = vcat(p1, [select(e) for i in 2:e.cfg["n_parents"]])
-            child = e.crossover(parents)
+            child = e.crossover(parents...)
         end
         if rand() < e.cfg["p_mutation"]
             child = e.mutation(child)

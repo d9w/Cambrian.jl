@@ -3,7 +3,11 @@ n_genes: 10
 n_fitness: 1
 n_selection: 3
 n_population: 10
-n_parents: 2
-n_elite: 1
-p_crossover: 0.1
-p_mutation: 0.3
+n_parents: 3
+n_elite: 2
+n_gen: 10
+log_gen: 1
+save_gen: 10
+p_crossover: 0.3
+p_mutation: 0.7
+m_rate: 0.2

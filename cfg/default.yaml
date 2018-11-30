@@ -1,9 +1,0 @@
-seed: 0
-n_genes: 10
-n_fitness: 1
-n_selection: 3
-n_population: 10
-n_parents: 2
-n_elite: 1
-p_crossover: 0.1
-p_mutation: 0.3
