@@ -1,0 +1,13 @@
+seed: 0
+n_genes: 10
+n_fitness: 1
+n_selection: 5
+n_population: 5
+n_parents: 0
+n_elite: 1
+n_gen: 10
+log_gen: 0
+save_gen: 0
+p_crossover: 0.0
+p_mutation: 1.0
+m_rate: 0.3

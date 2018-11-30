@@ -2,10 +2,11 @@ module Darwin
 
 using Random
 using Logging
-using Formatting
-using JSON
-using YAML
-using SharedArray
+using Distributed
+import Formatting
+import SharedArrays
+import JSON
+import UUIDs
 
 include("individual.jl")
 include("mutation.jl")
