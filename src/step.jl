@@ -41,10 +41,10 @@ end
 
 function step!(e::Evolution)
     e.gen += 1
-    e.generation(e)
     if e.gen > 1
         populate!(e)
     end
+    e.generation(e)
     evaluate!(e)
     if ((e.cfg["log_gen"] > 0) && mod(e.gen, e.cfg["log_gen"]) == 0)
         log_gen(e)
