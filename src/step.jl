@@ -41,6 +41,7 @@ end
 
 function step!(e::Evolution)
     e.gen += 1
+    e.generation(e)
     if e.gen > 1
         populate!(e)
     end
