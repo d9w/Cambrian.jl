@@ -11,6 +11,10 @@ function isless(i1::Individual, i2::Individual)
     all(i1.fitness .< i2.fitness)
 end
 
+function null_evaluate(i::Individual)
+    -Inf .* ones(i.fitness)
+end
+
 function random_evaluate(i::Individual)
     rand(length(i.fitness))
 end

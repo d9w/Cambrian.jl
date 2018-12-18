@@ -22,7 +22,7 @@ function Evolution(itype::Type, cfg::Dict;
                    mutation::Function=uniform_mutation,
                    crossover::Function=uniform_crossover,
                    selection::Function=tournament_selection,
-                   evaluation::Function=random_evaluate,
+                   evaluation::Function=null_evaluate,
                    generation::Function=no_genfunc)
     io = open(logfile, "a+")
     logger = DarwinLogger(io)
