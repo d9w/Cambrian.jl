@@ -24,8 +24,7 @@ function Evolution(itype::Type, cfg::Dict;
                    selection::Function=tournament_selection,
                    evaluation::Function=null_evaluate,
                    generation::Function=no_genfunc)
-    io = open(logfile, "a+")
-    logger = DarwinLogger(io)
+    logger = DarwinLogger(logfile)
     population = populate(itype, cfg)
     Evolution(id, logger, population, 0, cfg, mutation, crossover,
               selection, evaluation, no_genfunc)

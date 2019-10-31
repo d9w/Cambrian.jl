@@ -5,8 +5,16 @@ struct DarwinLogger <: AbstractLogger
     min_level::LogLevel
     message_limits::Dict{Any,Int}
 end
+
 DarwinLogger(stream::IO=stderr, level=Info) = DarwinLogger(
     stream, level, Dict{Any,Int}())
+
+function DarwinLogger(logfile::String)
+    path = join(split(logfile, "/")[1:end-1], "/")
+    mkpath(path)
+    io = open(logfile, "a+")
+    DarwinLogger(io)
+end
 
 shouldlog(logger::DarwinLogger, level, _module, group, id) =
     get(logger.message_limits, id, 1) > 0
