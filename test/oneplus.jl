@@ -1,27 +1,26 @@
 using YAML
 using Distributed
-@everywhere using Statistics
+using Darwin
 
-function test_oneplus_evo(evaluation::Function, n_fitness::Int64)
+function test_oneplus_evo(fitness::Function, d_fitness::Int64)
     cfg = YAML.load_file("cfg/oneplus.yaml")
-    cfg["n_fitness"] = n_fitness
-    e = Evolution(Darwin.FloatIndividual, cfg; id="test")
-    e.mutation = x->Darwin.uniform_mutation(x; m_rate=cfg["m_rate"])
-    e.evaluation = evaluation
+    cfg["d_fitness"] = d_fitness
+    e = Evolution(Darwin.FloatIndividual, cfg; id="test", populate=Darwin.oneplus_populate!)
+    e.evaluate = x::Evolution->Darwin.population_evaluate!(x; fitness=fitness)
 
     @test length(e.population) == cfg["n_population"]
     for i in e.population
         @test all(i.fitness .== -Inf)
     end
 
-    Darwin.evaluate!(e)
+    e.evaluate(e)
 
     for i in e.population
-        @test i.fitness == e.evaluation(i)
+        @test i.fitness == fitness(i)
     end
     best = sort(e.population)[end]
 
-    Darwin.populate!(e)
+    e.populate(e)
     new_best = sort(e.population)[end]
     @test !(new_best < best)
     max_count = 0
@@ -40,7 +39,7 @@ function test_oneplus_evo(evaluation::Function, n_fitness::Int64)
     step!(e)
     @test length(e.population) == cfg["n_population"]
     for i in e.population
-        @test i.fitness == e.evaluation(i)
+        @test i.fitness == fitness(i)
     end
     new_best = sort(e.population)[end]
     @test !(new_best < best)
@@ -51,7 +50,7 @@ function test_oneplus_evo(evaluation::Function, n_fitness::Int64)
     run!(e)
     @test length(e.population) == cfg["n_population"]
     for i in e.population
-        @test i.fitness == e.evaluation(i)
+        @test i.fitness == fitness(i)
     end
     @test !(new_best < best)
     @test e.gen == cfg["n_gen"]

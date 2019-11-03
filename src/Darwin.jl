@@ -16,6 +16,8 @@ include("mutation.jl")
 include("crossover.jl")
 include("selection.jl")
 include("evolution.jl")
+include("populate.jl")
+include("evaluation.jl")
 include("util.jl")
 include("step.jl")
 

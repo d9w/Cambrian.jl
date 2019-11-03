@@ -1,18 +1,18 @@
 using YAML
 using Distributed
+using Darwin
 @everywhere using Statistics
 
-function test_ga_evo(evaluation::Function, n_fitness::Int64)
+function test_ga_evo(fitness::Function, d_fitness::Int64)
     cfg = YAML.load_file("cfg/ga.yaml")
-    cfg["n_fitness"] = n_fitness
+    cfg["d_fitness"] = d_fitness
     e = Evolution(Darwin.FloatIndividual, cfg; id="test")
-    e.mutation = x->Darwin.uniform_mutation(x; m_rate=cfg["m_rate"])
-    e.evaluation = evaluation
+    e.evaluate = x::Evolution->Darwin.population_evaluate!(x; fitness=fitness)
 
     step!(e)
     @test length(e.population) == cfg["n_population"]
     for i in e.population
-        @test i.fitness == e.evaluation(i)
+        @test i.fitness == fitness(i)
     end
     best = sort(e.population)[end]
     @test e.gen == 1
@@ -22,7 +22,7 @@ function test_ga_evo(evaluation::Function, n_fitness::Int64)
     run!(e)
     @test length(e.population) == cfg["n_population"]
     for i in e.population
-        @test i.fitness == e.evaluation(i)
+        @test i.fitness == fitness(i)
     end
     new_best = sort(e.population)[end]
     @test !(new_best < best)

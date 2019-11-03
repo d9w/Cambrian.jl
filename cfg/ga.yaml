@@ -1,13 +1,13 @@
-seed: 0
-n_genes: 10
-n_fitness: 1
-n_selection: 3
-n_population: 10
-n_parents: 3
-n_elite: 2
-n_gen: 10
-log_gen: 1
-save_gen: 10
-p_crossover: 0.3
-p_mutation: 0.7
-m_rate: 0.2
+seed: 0            # evolution seed
+n_genes: 10        # gene length
+d_fitness: 1       # fitness dimension
+n_population: 10   # population size
+n_parents: 3       # parents for sexual reproduction
+n_elite: 2         # elites to carry over each generation
+n_gen: 10          # number of generations
+log_gen: 1         # log every x generations
+save_gen: 10       # save population every x generation
+tournament_size: 3 # tournament size
+p_crossover: 0.3   # crossover probability
+p_mutation: 0.7    # mutation probability
+m_rate: 0.2        # mutation rate
