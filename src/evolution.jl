@@ -24,7 +24,7 @@ function Evolution(itype::Type, cfg::Dict;
                    logfile::String=string("logs/", id, ".log"),
                    initialize::Function=default_initialize,
                    populate::Function=ga_populate!,
-                   evaluate::Function=population_evaluate!,
+                   evaluate::Function=fitness_evaluate!,
                    generation::Function=no_genfunc)
     logger = DarwinLogger(logfile)
     population = initialize(itype, cfg)
@@ -33,4 +33,14 @@ end
 
 function Evolution(itype::Type, cfg::String; kwargs...)
     Evolution(itype, YAML.load_file(cfg); kwargs...)
+end
+
+function oneplus(itype::Type, cfg::Dict, fitness::Function; kwargs...)
+    evaluate = x::Evolution->Darwin.fitness_evaluate!(x; fitness=fitness)
+    Evolution(itype, cfg; evaluate=evaluate, populate=oneplus_populate!)
+end
+
+function GA(itype::Type, cfg::Dict, fitness::Function; kwargs...)
+    evaluate = x::Evolution->Darwin.fitness_evaluate!(x; fitness=fitness)
+    Evolution(itype, cfg; evaluate=evaluate, populate=ga_populate!)
 end

@@ -34,7 +34,7 @@ function handle_message(logger::DarwinLogger, level, message, _module, group, id
     iob = IOContext(buf, logger.stream)
     levelstr = level == Warn ? "Warning" : string(level)
     msglines = split(chomp(string(message)), '\n')
-    println(iob, Dates.now(), " Darwin ", levelstr, " ", msglines[1])
+    println(iob, Dates.now(), "\tDarwin ", levelstr, " ", msglines[1])
     for i in 2:length(msglines)
         println(iob, "│ ", msglines[i])
     end

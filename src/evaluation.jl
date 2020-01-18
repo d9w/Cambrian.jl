@@ -6,7 +6,7 @@ function random_evaluate(i::Individual)
     rand(length(i.fitness))
 end
 
-function population_evaluate!(e::Evolution; fitness::Function=null_evaluate)
+function fitness_evaluate!(e::Evolution; fitness::Function=null_evaluate)
     for i in eachindex(e.population)
         e.population[i].fitness[:] = fitness(e.population[i])[:]
     end

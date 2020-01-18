@@ -6,8 +6,7 @@ using Darwin
 function test_ga_evo(fitness::Function, d_fitness::Int64)
     cfg = YAML.load_file("../cfg/ga.yaml")
     cfg["d_fitness"] = d_fitness
-    e = Evolution(Darwin.FloatIndividual, cfg; id="test")
-    e.evaluate = x::Evolution->Darwin.population_evaluate!(x; fitness=fitness)
+    e = Darwin.GA(Darwin.FloatIndividual, cfg, fitness; id="test")
 
     step!(e)
     @test length(e.population) == cfg["n_population"]

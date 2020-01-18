@@ -6,8 +6,7 @@ import Statistics
 function test_oneplus_evo(fitness::Function, d_fitness::Int64)
     cfg = YAML.load_file("../cfg/oneplus.yaml")
     cfg["d_fitness"] = d_fitness
-    e = Evolution(Darwin.FloatIndividual, cfg; id="test", populate=Darwin.oneplus_populate!)
-    e.evaluate = x::Evolution->Darwin.population_evaluate!(x; fitness=fitness)
+    e = Darwin.oneplus(Darwin.FloatIndividual, cfg, fitness; id="test")
 
     @test length(e.population) == cfg["n_population"]
     for i in e.population
@@ -54,6 +53,7 @@ function test_oneplus_evo(fitness::Function, d_fitness::Int64)
     for i in e.population
         @test i.fitness == fitness(i)
     end
+    new_best = sort(e.population)[end]
     @test !(new_best < best)
     @test e.gen == cfg["n_gen"]
 end
