@@ -49,7 +49,7 @@ function lexicase_evaluate!(e::Evolution, X::AbstractArray, Y::AbstractArray,
     ndata = size(Y, 2)
     functions = Array{Function}(undef, npop)
     for i in 1:npop
-        functions[i] = interpret(e.population[i].genes)
+        functions[i] = interpret(e.population[i])
     end
     data_inds = shuffle!(collect(1:ndata))
     fits = [e.population[i].fitness[1] for i in 1:npop]

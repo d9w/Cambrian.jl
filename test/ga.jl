@@ -4,7 +4,7 @@ using Darwin
 @everywhere using Statistics
 
 function test_ga_evo(fitness::Function, d_fitness::Int64)
-    cfg = YAML.load_file("cfg/ga.yaml")
+    cfg = YAML.load_file("../cfg/ga.yaml")
     cfg["d_fitness"] = d_fitness
     e = Evolution(Darwin.FloatIndividual, cfg; id="test")
     e.evaluate = x::Evolution->Darwin.population_evaluate!(x; fitness=fitness)
@@ -17,6 +17,7 @@ function test_ga_evo(fitness::Function, d_fitness::Int64)
     best = sort(e.population)[end]
     @test e.gen == 1
 
+    print("GA step ", string(fitness))
     @timev step!(e)
 
     run!(e)

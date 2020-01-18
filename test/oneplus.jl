@@ -1,9 +1,10 @@
 using YAML
 using Distributed
 using Darwin
+import Statistics
 
 function test_oneplus_evo(fitness::Function, d_fitness::Int64)
-    cfg = YAML.load_file("cfg/oneplus.yaml")
+    cfg = YAML.load_file("../cfg/oneplus.yaml")
     cfg["d_fitness"] = d_fitness
     e = Evolution(Darwin.FloatIndividual, cfg; id="test", populate=Darwin.oneplus_populate!)
     e.evaluate = x::Evolution->Darwin.population_evaluate!(x; fitness=fitness)
@@ -45,6 +46,7 @@ function test_oneplus_evo(fitness::Function, d_fitness::Int64)
     @test !(new_best < best)
     @test e.gen == 2
 
+    print("1+λ step ", string(fitness))
     @timev step!(e)
 
     run!(e)
@@ -76,7 +78,7 @@ end
 
     @testset "Multi-objective" begin
         function moo(i::Individual)
-            [mean(i.genes), std(i.genes), minimum(i.genes)]
+            [Statistics.mean(i.genes), Statistics.std(i.genes), minimum(i.genes)]
         end
         test_oneplus_evo(moo, 3)
     end

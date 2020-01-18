@@ -16,21 +16,25 @@ function data_setup()
     X, Y
 end
 
-function interpret(G::Array{Float64})
-    w = reshape(G, (4, 3))
+function interpret(ind::Darwin.Individual)
+    w = reshape(ind.genes, (4, 3))
     function F(x::Array{Float64})
         (x' * w)'
     end
 end
 
 function test_lexicase_evo(X::AbstractArray, Y::AbstractArray, interpret::Function)
-    cfg = YAML.load_file("cfg/oneplus.yaml")
+    cfg = YAML.load_file("../cfg/oneplus.yaml")
     cfg["n_genes"] = size(X, 1) * size(Y, 1)
     e = Evolution(Darwin.FloatIndividual, cfg; id="test", populate=Darwin.oneplus_populate!)
     # e.populate = x::Evolution->Darwin.oneplus_populate!(x; selection=Darwin.random_selection)
     e.evaluate = x::Evolution->Darwin.lexicase_evaluate!(x, X, Y, interpret;
-                                                         valid=Darwin.classify_valid)
+                                                         valid=Darwin.classify_valid,
+                                                         verify_best=false)
 
+    step!(e)
+
+    print("lexicase step")
     @timev step!(e)
     for i in 1:length(e.population)
         @test e.population[i].fitness[1] >= 0

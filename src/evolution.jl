@@ -1,5 +1,6 @@
 export Evolution
 using YAML
+using JSON
 
 mutable struct Evolution
     id::String
@@ -10,6 +11,10 @@ mutable struct Evolution
     populate::Function
     evaluate::Function
     generation::Function
+end
+
+function get_best(e::Evolution)
+    sort(e.population)[end]
 end
 
 no_genfunc(e::Evolution) = nothing

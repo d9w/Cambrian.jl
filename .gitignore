@@ -4,3 +4,8 @@
 deps/deps.jl
 
 Manifest.toml
+
+gens
+logs
+test/gens
+test/logs

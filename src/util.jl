@@ -15,7 +15,23 @@ function save_gen(e::Evolution)
     sort!(e.population)
     for i in eachindex(e.population)
         f = open(Formatting.format("{1}/{2:04d}.dna", path, i), "w+")
-        write(f, JSON.json(e.population[i]))
+        write(f, String(e.population[i]))
+        close(f)
+    end
+end
+
+function exchange_best!(e::Evolution; filename::String="best.ind")
+    # TODO: finish
+    best = get_best(e)
+    if stat(filename) != 0
+        file_best = Individual(filename)
+        sort!(e.population)
+        if (length(file_best.genes) == length(e.population[1].genes))
+            copyto!(e.population[1].genes, file_best.genes)
+            copyto!(e.population[1].fitness, file_best.fitness)
+        end
+        f = open(filename, "w+")
+        write(f, String(e.population[end]))
         close(f)
     end
 end
