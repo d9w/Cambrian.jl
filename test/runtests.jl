@@ -1,7 +1,7 @@
 using Darwin
 using Test
 
-# TODO: persistence tests with random fitness
+include("basics.jl")
 include("oneplus.jl")
 include("ga.jl")
 include("lexicase.jl")

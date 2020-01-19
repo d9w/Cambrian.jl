@@ -23,11 +23,12 @@ function interpret(ind::Darwin.Individual)
     end
 end
 
-function test_lexicase_evo(X::AbstractArray, Y::AbstractArray, interpret::Function)
+@testset "Lexicase Selection" begin
+    X, Y = data_setup()
+
     cfg = YAML.load_file("../cfg/oneplus.yaml")
     cfg["n_genes"] = size(X, 1) * size(Y, 1)
     e = Evolution(Darwin.FloatIndividual, cfg; id="test", populate=Darwin.oneplus_populate!)
-    # e.populate = x::Evolution->Darwin.oneplus_populate!(x; selection=Darwin.random_selection)
     e.evaluate = x::Evolution->Darwin.lexicase_evaluate!(x, X, Y, interpret;
                                                          valid=Darwin.classify_valid,
                                                          verify_best=false)
@@ -49,10 +50,3 @@ function test_lexicase_evo(X::AbstractArray, Y::AbstractArray, interpret::Functi
         best_fit = best.fitness[1]
     end
 end
-
-
-@testset "Lexicase Selection" begin
-    X, Y = data_setup()
-    test_lexicase_evo(X, Y, interpret)
-end
-

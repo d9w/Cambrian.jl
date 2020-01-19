@@ -32,19 +32,16 @@ function classify_valid(h::AbstractArray, y::AbstractArray)
 end
 
 """
-    lexicase_evaluate!(e::Evolution, X::AbstractArray, Y::AbstractArray,
-                            interpret::Function; valid::Function=mse_valid, epsilon::Int64=1)
-
 lexicase selection for data-based GP problems where each genome G in
 e.population corresponds to a data-processing function F, where F =
 interpret(G). X and Y are 2D arrays, and individuals are evaluated based on
 valid(F(X[:, i]), Y[:, i]), where the valid function determines if individuals
 should continue to be evaluated.
-
 """
 function lexicase_evaluate!(e::Evolution, X::AbstractArray, Y::AbstractArray,
-                            interpret::Function; valid::Function=mse_valid,
-                            epsilon::Int64=1, verify_best::Bool=true)
+                            interpret::Function; valid::Function=classify_valid,
+                            verify_best::Bool=true, seed::Int64=e.gen)
+    Random.seed!(seed)
     npop = length(e.population)
     ndata = size(Y, 2)
     functions = Array{Function}(undef, npop)
@@ -53,7 +50,11 @@ function lexicase_evaluate!(e::Evolution, X::AbstractArray, Y::AbstractArray,
     end
     data_inds = shuffle!(collect(1:ndata))
     fits = [e.population[i].fitness[1] for i in 1:npop]
-    is_valid = fits .== -Inf
+    if verify_best
+        is_valid = fits .== -Inf # do not re-evaluate expert
+    else
+        is_valid = trues(npop)
+    end
     for i in 1:ndata
         x = X[:, data_inds[i]]
         y = Y[:, data_inds[i]]
@@ -68,13 +69,14 @@ function lexicase_evaluate!(e::Evolution, X::AbstractArray, Y::AbstractArray,
                 end
             end
         end
-        if sum(is_valid) <= epsilon
+        if sum(is_valid) <= 1
             break
         end
     end
     if verify_best
         best = argmax(fits)
         if e.population[best] == -Inf
+            # new best individual, re-evaluate
             fits[best] = 0.0
             for i in 1:ndata
                 for j in 1:npop
