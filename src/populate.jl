@@ -14,10 +14,11 @@ end
 function oneplus_populate!(e::Evolution;
                            mutation::Function=uniform_mutation,
                            selection::Function=max_selection)
-    p1 = selection(e.population)
-    e.population[1] = p1
-    for i in (e.cfg["n_elite"]+1):e.cfg["n_population"]
-        e.population[i] = mutation(deepcopy(p1))
+    p1 = copy(selection(e.population))
+    empty!(e.population)
+    push!(e.population, p1)
+    for i in 2:e.cfg["n_population"]
+        push!(e.population, mutation(p1))
     end
 end
 

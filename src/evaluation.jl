@@ -49,12 +49,12 @@ function lexicase_evaluate!(e::Evolution, X::AbstractArray, Y::AbstractArray,
         functions[i] = interpret(e.population[i])
     end
     data_inds = shuffle!(collect(1:ndata))
-    fits = [e.population[i].fitness[1] for i in 1:npop]
-    if verify_best
-        is_valid = fits .== -Inf # do not re-evaluate expert
-    else
-        is_valid = trues(npop)
-    end
+    is_valid = trues(npop)
+    fits = zeros(npop)
+    # if verify_best
+    #     fits = [e.population[i].fitness[1] for i in 1:npop]
+    #     is_valid = fits .== -Inf # do not re-evaluate expert
+    # end
     for i in 1:ndata
         x = X[:, data_inds[i]]
         y = Y[:, data_inds[i]]
@@ -64,7 +64,6 @@ function lexicase_evaluate!(e::Evolution, X::AbstractArray, Y::AbstractArray,
                 if valid(h, y)
                     fits[j] = i
                 else
-                    fits[j] = i-1
                     is_valid[j] = false
                 end
             end
@@ -73,21 +72,23 @@ function lexicase_evaluate!(e::Evolution, X::AbstractArray, Y::AbstractArray,
             break
         end
     end
-    if verify_best
-        best = argmax(fits)
-        if e.population[best] == -Inf
-            # new best individual, re-evaluate
-            fits[best] = 0.0
-            for i in 1:ndata
-                for j in 1:npop
-                    if valid(functions[j](X[:, i]), Y[:, i])
-                        fits[best] += 1.0
-                    end
-                end
-            end
-        end
-    end
     for i in 1:npop
         e.population[i].fitness[1] = fits[i]
     end
 end
+
+#     if verify_best
+#         best = argmax(fits)
+#         if e.population[best] == -Inf
+#             # new best individual, re-evaluate
+#             fits[best] = 0.0
+#             for i in 1:ndata
+#                 for j in 1:npop
+#                     if valid(functions[j](X[:, i]), Y[:, i])
+#                         fits[best] += 1.0
+#                     end
+#                 end
+#             end
+#         end
+#     end
+# end

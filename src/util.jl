@@ -15,7 +15,7 @@ function save_gen(e::Evolution)
     sort!(e.population)
     for i in eachindex(e.population)
         f = open(Formatting.format("{1}/{2:04d}.dna", path, i), "w+")
-        write(f, String(e.population[i]))
+        write(f, string(e.population[i]))
         close(f)
     end
 end
@@ -31,7 +31,7 @@ function exchange_best!(e::Evolution; filename::String="best.ind")
             copyto!(e.population[1].fitness, file_best.fitness)
         end
         f = open(filename, "w+")
-        write(f, String(e.population[end]))
+        write(f, string(e.population[end]))
         close(f)
     end
 end
