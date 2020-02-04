@@ -11,6 +11,7 @@ mutable struct Evolution
     populate::Function
     evaluate::Function
     generation::Function
+    text::String
 end
 
 function get_best(e::Evolution)
@@ -28,7 +29,7 @@ function Evolution(itype::Type, cfg::Dict;
                    generation::Function=no_genfunc)
     logger = DarwinLogger(logfile)
     population = initialize(itype, cfg)
-    Evolution(id, logger, population, 0, cfg, populate, evaluate, generation)
+    Evolution(id, logger, population, 0, cfg, populate, evaluate, generation, "")
 end
 
 function Evolution(itype::Type, cfg::String; kwargs...)

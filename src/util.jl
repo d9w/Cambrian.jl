@@ -1,8 +1,8 @@
 function log_gen(e::Evolution)
     maxs = map(i->maximum(i.fitness), e.population)
     with_logger(e.log) do
-        @info Formatting.format("{1} {2:04d} {3:e} {4:e} {5:e}",
-                                e.id, e.gen, maximum(maxs),
+        @info Formatting.format("{1} {2:04d} {3} {4:e} {5:e} {6:e}",
+                                e.id, e.gen, e.text, maximum(maxs),
                                 mean(maxs), std(maxs))
     end
     flush(e.log.stream)

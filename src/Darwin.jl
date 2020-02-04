@@ -10,6 +10,8 @@ import JSON
 import UUIDs
 import Dates
 
+# TODO: use abstract Evolution type and subclass in depending packages
+
 include("logger.jl")
 include("individual.jl")
 include("mutation.jl")
