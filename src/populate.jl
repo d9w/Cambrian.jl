@@ -13,8 +13,12 @@ end
 
 function oneplus_populate!(e::Evolution;
                            mutation::Function=uniform_mutation,
-                           selection::Function=max_selection)
-    p1 = copy(selection(e.population))
+                           selection::Function=max_selection,
+                           reset_expert::Bool=false)
+    p1 = deepcopy(selection(e.population))
+    if reset_expert
+        p1.fitness[:] .= -Inf
+    end
     empty!(e.population)
     push!(e.population, p1)
     for i in 2:e.cfg["n_population"]
