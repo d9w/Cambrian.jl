@@ -2,7 +2,6 @@ language: julia
 codecov: true
 coveralls: true
 julia:
-  - 1.2
   - 1.3
   - 1.4
   - nightly
@@ -11,4 +10,3 @@ os:
   # - osx
 notifications:
   email: false
-sudo: false
