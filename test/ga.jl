@@ -1,12 +1,12 @@
 using YAML
 using Distributed
-using Darwin
+using Cambrian
 @everywhere using Statistics
 
 function test_ga_evo(fitness::Function, d_fitness::Int64)
     cfg = YAML.load_file("../cfg/ga.yaml")
     cfg["d_fitness"] = d_fitness
-    e = Darwin.GA(Darwin.FloatIndividual, cfg, fitness; id="test")
+    e = Cambrian.GA(Cambrian.FloatIndividual, cfg, fitness; id="test")
 
     step!(e)
     @test length(e.population) == cfg["n_population"]

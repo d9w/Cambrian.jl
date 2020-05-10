@@ -1,13 +1,13 @@
-using Darwin
+using Cambrian
 import YAML
 
 @testset "Random fitness" begin
     cfg = YAML.load_file("../cfg/oneplus.yaml")
     cfg["d_fitness"] = 1
-    e = Darwin.Evolution(Darwin.FloatIndividual, cfg; id="test")
-    e.evaluate = e::Darwin.Evolution->Darwin.fitness_evaluate!(
-        e, fitness=Darwin.random_evaluate)
-    e.populate = Darwin.oneplus_populate!
+    e = Cambrian.Evolution(Cambrian.FloatIndividual, cfg; id="test")
+    e.evaluate = e::Cambrian.Evolution->Cambrian.fitness_evaluate!(
+        e, fitness=Cambrian.random_evaluate)
+    e.populate = Cambrian.oneplus_populate!
 
     @test length(e.population) == cfg["n_population"]
     for i in e.population

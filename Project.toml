@@ -1,5 +1,5 @@
-name = "Darwin"
-uuid = "53cc8980-f3e8-11e8-3921-2d656fcde033"
+name = "Cambrian"
+uuid = "7f27c84d-2d74-42e5-be5f-94f6748267f3"
 authors = ["Dennis Wilson <dennis@d9w.xyz>"]
 version = "0.1.0"
 
@@ -9,9 +9,7 @@ Distributed = "8ba89e20-285c-5b6f-9357-94700520ee1b"
 Formatting = "59287772-0a20-5a39-b81b-1366585eb4c0"
 JSON = "682c06a0-de6a-54ab-a142-c8b1cf79cde6"
 Logging = "56ddb016-857b-54e1-b83d-db4d58db5568"
-RDatasets = "ce6b1742-4840-55fa-b093-852dadbb1d8b"
 Random = "9a3f8284-a2c9-5f02-9a11-845980a1fd5c"
-Revise = "295af30f-e4ad-537b-8983-00126c2a3abe"
 SharedArrays = "1a1011a3-84de-559e-8e89-a11a2f7dc383"
 Statistics = "10745b16-79ce-11e8-11f9-7d13ad32a3b2"
 Test = "8dfed614-e22c-5e08-85e1-65c5234f0b40"

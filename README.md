@@ -1,2 +1,3 @@
-# Darwin.jl
-General evolutionary computation framework
+# Cambrian.jl
+
+An Evolutionary Computation framework

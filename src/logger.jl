@@ -1,29 +1,29 @@
 import Logging: Info, Warn, shouldlog, min_enabled_level, catch_exceptions, handle_message
 
-struct DarwinLogger <: AbstractLogger
+struct CambrianLogger <: AbstractLogger
     stream::IO
     min_level::LogLevel
     message_limits::Dict{Any,Int}
 end
 
-DarwinLogger(stream::IO=stderr, level=Info) = DarwinLogger(
+CambrianLogger(stream::IO=stderr, level=Info) = CambrianLogger(
     stream, level, Dict{Any,Int}())
 
-function DarwinLogger(logfile::String)
+function CambrianLogger(logfile::String)
     path = join(split(logfile, "/")[1:end-1], "/")
     mkpath(path)
     io = open(logfile, "a+")
-    DarwinLogger(io)
+    CambrianLogger(io)
 end
 
-shouldlog(logger::DarwinLogger, level, _module, group, id) =
+shouldlog(logger::CambrianLogger, level, _module, group, id) =
     get(logger.message_limits, id, 1) > 0
 
-min_enabled_level(logger::DarwinLogger) = logger.min_level
+min_enabled_level(logger::CambrianLogger) = logger.min_level
 
-catch_exceptions(logger::DarwinLogger) = false
+catch_exceptions(logger::CambrianLogger) = false
 
-function handle_message(logger::DarwinLogger, level, message, _module, group, id,
+function handle_message(logger::CambrianLogger, level, message, _module, group, id,
                         filepath, line; maxlog=nothing, kwargs...)
     if maxlog != nothing && maxlog isa Integer
         remaining = get!(logger.message_limits, id, maxlog)
@@ -34,7 +34,7 @@ function handle_message(logger::DarwinLogger, level, message, _module, group, id
     iob = IOContext(buf, logger.stream)
     levelstr = level == Warn ? "Warning" : string(level)
     msglines = split(chomp(string(message)), '\n')
-    println(iob, Dates.now(), "\tDarwin ", levelstr, " ", msglines[1])
+    println(iob, Dates.now(), "\tCambrian ", levelstr, " ", msglines[1])
     for i in 2:length(msglines)
         println(iob, "│ ", msglines[i])
     end

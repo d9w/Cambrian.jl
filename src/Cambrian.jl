@@ -1,4 +1,4 @@
-module Darwin
+module Cambrian
 
 using Random
 using Logging

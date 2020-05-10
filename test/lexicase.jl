@@ -1,4 +1,4 @@
-using Darwin
+using Cambrian
 using Test
 using RDatasets
 using YAML
@@ -16,7 +16,7 @@ function data_setup()
     X, Y
 end
 
-function interpret(ind::Darwin.Individual)
+function interpret(ind::Cambrian.Individual)
     w = reshape(ind.genes, (4, 3))
     function F(x::Array{Float64})
         (x' * w)'
@@ -28,9 +28,9 @@ end
 
     cfg = YAML.load_file("../cfg/oneplus.yaml")
     cfg["n_genes"] = size(X, 1) * size(Y, 1)
-    e = Evolution(Darwin.FloatIndividual, cfg; id="test", populate=Darwin.oneplus_populate!)
-    e.evaluate = x::Evolution->Darwin.lexicase_evaluate!(x, X, Y, interpret;
-                                                         valid=Darwin.classify_valid,
+    e = Evolution(Cambrian.FloatIndividual, cfg; id="test", populate=Cambrian.oneplus_populate!)
+    e.evaluate = x::Evolution->Cambrian.lexicase_evaluate!(x, X, Y, interpret;
+                                                         valid=Cambrian.classify_valid,
                                                          verify_best=false)
 
     step!(e)

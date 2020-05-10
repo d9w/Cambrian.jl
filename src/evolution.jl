@@ -27,7 +27,7 @@ function Evolution(itype::Type, cfg::Dict;
                    populate::Function=ga_populate!,
                    evaluate::Function=fitness_evaluate!,
                    generation::Function=no_genfunc)
-    logger = DarwinLogger(logfile)
+    logger = CambrianLogger(logfile)
     population = initialize(itype, cfg)
     Evolution(id, logger, population, 0, cfg, populate, evaluate, generation, "")
 end
@@ -37,11 +37,11 @@ function Evolution(itype::Type, cfg::String; kwargs...)
 end
 
 function oneplus(itype::Type, cfg::Dict, fitness::Function; kwargs...)
-    evaluate = x::Evolution->Darwin.fitness_evaluate!(x; fitness=fitness)
+    evaluate = x::Evolution->Cambrian.fitness_evaluate!(x; fitness=fitness)
     Evolution(itype, cfg; evaluate=evaluate, populate=oneplus_populate!)
 end
 
 function GA(itype::Type, cfg::Dict, fitness::Function; kwargs...)
-    evaluate = x::Evolution->Darwin.fitness_evaluate!(x; fitness=fitness)
+    evaluate = x::Evolution->Cambrian.fitness_evaluate!(x; fitness=fitness)
     Evolution(itype, cfg; evaluate=evaluate, populate=ga_populate!)
 end
