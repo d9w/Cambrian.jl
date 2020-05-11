@@ -3,7 +3,7 @@ using Distributed
 using Cambrian
 import Statistics
 
-function test_oneplus_evo(fitness::Function, d_fitness::Int64)
+function test_oneplus_evo(fitness::Function, d_fitness::Int)
     cfg = YAML.load_file("../cfg/oneplus.yaml")
     cfg["d_fitness"] = d_fitness
     e = Cambrian.oneplus(Cambrian.FloatIndividual, cfg, fitness; id="test")

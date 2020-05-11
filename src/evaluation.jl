@@ -40,7 +40,7 @@ should continue to be evaluated.
 """
 function lexicase_evaluate!(e::Evolution, X::AbstractArray, Y::AbstractArray,
                             interpret::Function; valid::Function=classify_valid,
-                            verify_best::Bool=true, seed::Int64=e.gen)
+                            verify_best::Bool=true, seed::Int=e.gen)
     Random.seed!(seed)
     npop = length(e.population)
     ndata = size(Y, 2)

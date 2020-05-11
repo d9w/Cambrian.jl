@@ -3,7 +3,7 @@ using Distributed
 using Cambrian
 @everywhere using Statistics
 
-function test_ga_evo(fitness::Function, d_fitness::Int64)
+function test_ga_evo(fitness::Function, d_fitness::Int)
     cfg = YAML.load_file("../cfg/ga.yaml")
     cfg["d_fitness"] = d_fitness
     e = Cambrian.GA(Cambrian.FloatIndividual, cfg, fitness; id="test")

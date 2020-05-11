@@ -1,4 +1,4 @@
-function tournament_selection(pop::Array{Individual}, t_size::Int64)
+function tournament_selection(pop::Array{Individual}, t_size::Int)
     inds = shuffle!(collect(1:length(pop)))
     sort(pop[inds[1:t_size]])[end]
 end

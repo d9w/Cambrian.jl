@@ -6,7 +6,7 @@ mutable struct Evolution
     id::String
     log::AbstractLogger
     population::Array{Individual}
-    gen::Int64
+    gen::Int
     cfg::Dict
     populate::Function
     evaluate::Function
