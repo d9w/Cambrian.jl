@@ -1,7 +1,7 @@
 name = "Cambrian"
 uuid = "7f27c84d-2d74-42e5-be5f-94f6748267f3"
 authors = ["Dennis Wilson <dennis@d9w.xyz>"]
-version = "0.1.0"
+version = "0.1.1"
 
 [deps]
 Dates = "ade2ca70-3891-5945-98fb-dc099432e06a"
