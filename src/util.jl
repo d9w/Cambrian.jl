@@ -1,4 +1,4 @@
-function log_gen(e::Evolution)
+function log_gen(e::AbstractEvolution)
     maxs = map(i->maximum(i.fitness), e.population)
     with_logger(e.log) do
         @info Formatting.format("{1} {2:04d} {3} {4:e} {5:e} {6:e}",
@@ -8,7 +8,7 @@ function log_gen(e::Evolution)
     flush(e.log.stream)
 end
 
-function save_gen(e::Evolution)
+function save_gen(e::AbstractEvolution)
     # save the entire population
     path = Formatting.format("gens/{1}/{2:04d}", e.id, e.gen)
     mkpath(path)
@@ -20,7 +20,7 @@ function save_gen(e::Evolution)
     end
 end
 
-function exchange_best!(e::Evolution; filename::String="best.ind")
+function exchange_best!(e::AbstractEvolution; filename::String="best.ind")
     # TODO: finish
     best = get_best(e)
     if stat(filename) != 0

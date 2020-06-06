@@ -1,8 +1,8 @@
-export Evolution
-using YAML
-using JSON
+export AbstractEvolution, Evolution
 
-mutable struct Evolution
+abstract type AbstractEvolution end
+
+mutable struct Evolution <: AbstractEvolution
     id::String
     log::AbstractLogger
     population::Array{Individual}
@@ -14,11 +14,11 @@ mutable struct Evolution
     text::String
 end
 
-function get_best(e::Evolution)
+function get_best(e::AbstractEvolution)
     sort(e.population)[end]
 end
 
-no_genfunc(e::Evolution) = nothing
+no_genfunc(e::AbstractEvolution) = nothing
 
 function Evolution(itype::Type, cfg::Dict;
                    id::String=string(UUIDs.uuid4()),

@@ -11,7 +11,7 @@ function random_selection(pop::Array{Individual})
     pop[rand(1:length(pop))]
 end
 
-function oneplus_populate!(e::Evolution;
+function oneplus_populate!(e::AbstractEvolution;
                            mutation::Function=uniform_mutation,
                            selection::Function=max_selection,
                            reset_expert::Bool=false)
@@ -26,7 +26,7 @@ function oneplus_populate!(e::Evolution;
     end
 end
 
-function ga_populate!(e::Evolution;
+function ga_populate!(e::AbstractEvolution;
                       mutation::Function=uniform_mutation,
                       crossover::Function=uniform_crossover,
                       selection::Function=x->tournament_selection(x, e.cfg["tournament_size"]))
@@ -51,11 +51,11 @@ function ga_populate!(e::Evolution;
     e.population = new_pop
 end
 
-function cmaes_populate!(e::Evolution)
+function cmaes_populate!(e::AbstractEvolution)
     # TODO, rewrite cmaes.jl
 end
 
-function nsga2_populate!(e::Evolution)
+function nsga2_populate!(e::AbstractEvolution)
     # TODO
 end
 

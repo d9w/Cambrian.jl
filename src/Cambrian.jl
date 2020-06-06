@@ -4,13 +4,12 @@ using Random
 using Logging
 using Distributed
 using Statistics
+using YAML
+using JSON
 import Formatting
 import SharedArrays
-import JSON
 import UUIDs
 import Dates
-
-# TODO: use abstract Evolution type and subclass in depending packages
 
 include("logger.jl")
 include("individual.jl")

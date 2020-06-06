@@ -1,6 +1,6 @@
 export step!, run!
 
-function step!(e::Evolution)
+function step!(e::AbstractEvolution)
     e.gen += 1
     if e.gen > 1
         e.populate(e)
@@ -15,7 +15,7 @@ function step!(e::Evolution)
     end
 end
 
-function run!(e::Evolution)
+function run!(e::AbstractEvolution)
     for i in (e.gen+1):e.cfg["n_gen"]
         step!(e)
     end
