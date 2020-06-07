@@ -12,16 +12,16 @@ function fitness_evaluate!(e::AbstractEvolution; fitness::Function=null_evaluate
     end
 end
 
-function distributed_evaluate!(e::AbstractEvolution; fitness::Function=null_evaluate)
-    fits = SharedArrays.SharedArray{Float64}(e.cfg["d_fitness"],
-                                             length(e.population))
-    @sync @distributed for i in eachindex(e.population)
-        fits[:, i] = fitness(e.population[i])
-    end
-    for i in eachindex(e.population)
-        e.population[i].fitness .= fits[:, i]
-    end
-end
+# function distributed_evaluate!(e::AbstractEvolution; fitness::Function=null_evaluate)
+#     fits = SharedArrays.SharedArray{Float64}(e.cfg["d_fitness"],
+#                                              length(e.population))
+#     @sync @distributed for i in eachindex(e.population)
+#         fits[:, i] = fitness(e.population[i])
+#     end
+#     for i in eachindex(e.population)
+#         e.population[i].fitness .= fits[:, i]
+#     end
+# end
 
 function mse_valid(h::AbstractArray, y::AbstractArray; margin::Float64=0.1)
     sum((h - y).^2) < margin

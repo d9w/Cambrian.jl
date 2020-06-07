@@ -11,7 +11,6 @@ generation!(e::Evolution)
 struct Evolution <: AbstractEvolution
     log::CambrianLogger
     population::Array{Individual}
-    gen::Int
     cfg::Dict
 end
 
@@ -19,8 +18,8 @@ function get_best(e::AbstractEvolution)
     sort(e.population)[end]
 end
 
-function initialize!(e::AbstractEvolution, cfg::Dict)
-    population = Array{Individual}(undef, cfg["n_population"])
+function initialize!(e::AbstractEvolution)
+    population = Array{Individual}(undef, e.cfg["n_population"])
     for i in 1:cfg["n_population"]
         population[i] = itype(cfg)
     end

@@ -1,0 +1,9 @@
+seed: 0
+n_genes: 10
+d_fitness: 2
+n_population: 10
+n_elite: 3
+n_gen: 10
+log_gen: 0
+save_gen: 0
+m_rate: 0.3

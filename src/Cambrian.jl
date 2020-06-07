@@ -2,12 +2,10 @@ module Cambrian
 
 using Random
 using Logging
-using Distributed
 using Statistics
 using YAML
 using JSON
 import Formatting
-import SharedArrays
 import UUIDs
 import Dates
 
