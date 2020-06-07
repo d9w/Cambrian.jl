@@ -2,7 +2,25 @@ export Individual
 using JSON
 import Base.isless
 
+"""
+every Individual needs to implement:
+Individual(cfg::Dict)
+
+and have the fields
+genes
+fitness::Array
+"""
 abstract type Individual end
+
+struct BoolIndividual <: Individual
+    genes::BitArray
+    fitness::Array{Float64}
+end
+
+struct FloatIndividual <: Individual
+    genes::Array{Float64}
+    fitness::Array{Float64}
+end
 
 function get_child(parent::Individual, genes::AbstractArray)
     typeof(parent)(genes, -Inf * ones(length(parent.fitness)))
@@ -12,27 +30,9 @@ function isless(i1::Individual, i2::Individual)
     all(i1.fitness .< i2.fitness)
 end
 
-function default_initialize(itype::Type, cfg::Dict)
-    population = Array{Individual}(undef, cfg["n_population"])
-    for i in 1:cfg["n_population"]
-        population[i] = itype(cfg)
-    end
-    population
-end
-
-struct BoolIndividual <: Individual
-    genes::BitArray
-    fitness::Array{Float64}
-end
-
 function BoolIndividual(cfg::Dict)
     BoolIndividual(BitArray{rand(cfg["n_genes"])},
                    -Inf*ones(cfg["d_fitness"]))
-end
-
-struct FloatIndividual <: Individual
-    genes::Array{Float64}
-    fitness::Array{Float64}
 end
 
 function FloatIndividual(cfg::Dict)
@@ -40,10 +40,10 @@ function FloatIndividual(cfg::Dict)
                     -Inf*ones(cfg["d_fitness"]))
 end
 
-function Individual(genes::AbstractArray, fitness::AbstractArray)
+function FloatIndividual(genes::AbstractArray, fitness::AbstractArray)
     fitness[fitness .== nothing] .= -Inf
     fitness = Float64.(fitness)
-    genes = typeof(genes[1]).(genes)
+    genes = Float64.(genes)
     FloatIndividual(genes, fitness)
 end
 

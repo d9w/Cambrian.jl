@@ -1,12 +1,16 @@
 export step!, run!
 
+function generation!(e::AbstractEvolution)
+    nothing
+end
+
 function step!(e::AbstractEvolution)
     e.gen += 1
     if e.gen > 1
-        e.populate(e)
+        populate!(e)
     end
-    e.generation(e)
-    e.evaluate(e)
+    generation!(e)
+    evaluate!(e)
     if ((e.cfg["log_gen"] > 0) && mod(e.gen, e.cfg["log_gen"]) == 0)
         log_gen(e)
     end

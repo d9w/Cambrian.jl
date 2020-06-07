@@ -1,9 +1,10 @@
+export log_gen, save_gen
+
 function log_gen(e::AbstractEvolution)
     maxs = map(i->maximum(i.fitness), e.population)
     with_logger(e.log) do
-        @info Formatting.format("{1} {2:04d} {3} {4:e} {5:e} {6:e}",
-                                e.id, e.gen, e.text, maximum(maxs),
-                                mean(maxs), std(maxs))
+        @info Formatting.format("{1} {2:04d} {3:e} {4:e} {5:e}",
+                                e.log.id, e.gen, maximum(maxs), mean(maxs), std(maxs))
     end
     flush(e.log.stream)
 end
@@ -21,7 +22,7 @@ function save_gen(e::AbstractEvolution)
 end
 
 function exchange_best!(e::AbstractEvolution; filename::String="best.ind")
-    # TODO: finish
+    # TODO: test and make work
     best = get_best(e)
     if stat(filename) != 0
         file_best = Individual(filename)
