@@ -2,23 +2,11 @@ export AbstractEvolution, Evolution
 
 abstract type AbstractEvolution end
 
-"""
-Every Evolution class needs to implement the following methods:
-populate!(e::Evolution)
-evaluate!(e::Evolution)
-generation!(e::Evolution)
-"""
-struct Evolution <: AbstractEvolution
-    log::CambrianLogger
-    population::Array{Individual}
-    cfg::Dict
-end
-
 function get_best(e::AbstractEvolution)
     sort(e.population)[end]
 end
 
-function initialize!(e::AbstractEvolution)
+function initialize(e::AbstractEvolution)
     population = Array{Individual}(undef, e.cfg["n_population"])
     for i in 1:cfg["n_population"]
         population[i] = itype(cfg)
@@ -26,7 +14,23 @@ function initialize!(e::AbstractEvolution)
     population
 end
 
+"""
+Every AbstractEvolution subclass needs to have the following fields:
+    log::CambrianLogger
+    config::Dict
+    population::Array{<: Individual}
 
+and has to implement the following methods:
+    populate(e::Evolution)
+    evaluate(e::Evolution)
+    generation(e::Evolution)
+"""
+mutable struct Evolution{T} <: AbstractEvolution
+    logger::CambrianLogger
+    config::Dict
+    population::Array{T}
+    generation::Int
+end
 
 function Evolution(itype::Type, cfg::Dict;
                    id::String=string(UUIDs.uuid4()),

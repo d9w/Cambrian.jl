@@ -1,13 +1,14 @@
 using Cambrian
 import YAML
 
+cfg = YAML.load_file("test.yaml")
+
 @testset "Random fitness" begin
-    cfg = YAML.load_file("../cfg/oneplus.yaml")
     cfg["d_fitness"] = 1
-    e = Cambrian.Evolution(Cambrian.FloatIndividual, cfg; id="test")
-    e.evaluate = e::Cambrian.Evolution->Cambrian.fitness_evaluate!(
-        e, fitness=Cambrian.random_evaluate)
-    e.populate = Cambrian.oneplus_populate!
+    e = Evolution{FloatIndividual}(cfg; id="test")
+
+    evaluate(e::Evolution) = random_evaluate(e)
+    populate(e::Evolution) = oneplus_populate(e)
 
     @test length(e.population) == cfg["n_population"]
     for i in e.population
