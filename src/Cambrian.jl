@@ -15,7 +15,6 @@ include("evolution.jl")
 include("operators.jl")
 include("populate.jl")
 include("evaluation.jl")
-include("util.jl")
 include("step.jl")
 
 end
