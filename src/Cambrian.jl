@@ -11,9 +11,8 @@ import Dates
 
 include("logger.jl")
 include("individual.jl")
-include("mutation.jl")
-include("crossover.jl")
 include("evolution.jl")
+include("operators.jl")
 include("populate.jl")
 include("evaluation.jl")
 include("util.jl")
