@@ -1,10 +1,11 @@
 export log_gen, save_gen
 
 function log_gen(e::AbstractEvolution)
+    # Todo: log each fitness dimension
     maxs = map(i->maximum(i.fitness), e.population)
     with_logger(e.log) do
-        @info Formatting.format("{1} {2:04d} {3:e} {4:e} {5:e}",
-                                e.log.id, e.gen, maximum(maxs), mean(maxs), std(maxs))
+        @info Formatting.format("{1:04d} {2:e} {3:e} {4:e}",
+                                e.gen, maximum(maxs), mean(maxs), std(maxs))
     end
     flush(e.log.stream)
 end
@@ -17,22 +18,6 @@ function save_gen(e::AbstractEvolution)
     for i in eachindex(e.population)
         f = open(Formatting.format("{1}/{2:04d}.dna", path, i), "w+")
         write(f, string(e.population[i]))
-        close(f)
-    end
-end
-
-function exchange_best!(e::AbstractEvolution; filename::String="best.ind")
-    # TODO: test and make work
-    best = get_best(e)
-    if stat(filename) != 0
-        file_best = Individual(filename)
-        sort!(e.population)
-        if (length(file_best.genes) == length(e.population[1].genes))
-            copyto!(e.population[1].genes, file_best.genes)
-            copyto!(e.population[1].fitness, file_best.fitness)
-        end
-        f = open(filename, "w+")
-        write(f, string(e.population[end]))
         close(f)
     end
 end

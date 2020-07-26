@@ -2,7 +2,7 @@ export Individual, BoolIndividual, FloatIndividual
 import Base: isless, print
 
 """
-every Individual needs to implement:
+every Individual subtype needs to implement:
 Individual(cfg::Dict)
 Individual(json::String)
 

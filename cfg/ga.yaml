@@ -1,12 +1,14 @@
+# Cambrian base config
 seed: 0            # evolution seed
-n_genes: 10        # gene length
 d_fitness: 1       # fitness dimension
 n_population: 10   # population size
-n_parents: 3       # parents for sexual reproduction
 n_elite: 2         # elites to carry over each generation
 n_gen: 10          # number of generations
 log_gen: 1         # log every x generations
 save_gen: 10       # save population every x generation
+# GA specific config
+n_genes: 10        # gene length
+n_parents: 3       # parents for sexual reproduction
 tournament_size: 3 # tournament size
 p_crossover: 0.3   # crossover probability
 p_mutation: 0.7    # mutation probability
