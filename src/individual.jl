@@ -3,12 +3,14 @@ import Base: isless, print
 
 """
 every Individual subtype needs to implement:
-Individual(cfg::Dict)
+Individual(cfg::NamedTuple)
 Individual(json::String)
 
 and have the fields
 genes
 fitness::Array
+
+BoolIndvidiual and FloatIndividual are provided as Cambrian defaults
 """
 abstract type Individual end
 
@@ -43,8 +45,8 @@ struct BoolIndividual <: Individual
     fitness::Array{Float64}
 end
 
-function BoolIndividual(cfg::Dict)
-    BoolIndividual(BitArray(rand(Bool, cfg["n_genes"])), -Inf*ones(cfg["d_fitness"]))
+function BoolIndividual(cfg::NamedTuple)
+    BoolIndividual(BitArray(rand(Bool, cfg.n_genes)), -Inf*ones(cfg.d_fitness))
 end
 
 function BoolIndividual(st::String)
@@ -57,8 +59,8 @@ struct FloatIndividual <: Individual
     fitness::Array{Float64}
 end
 
-function FloatIndividual(cfg::Dict)
-    FloatIndividual(rand(cfg["n_genes"]), -Inf*ones(cfg["d_fitness"]))
+function FloatIndividual(cfg::NamedTuple)
+    FloatIndividual(rand(cfg.n_genes), -Inf*ones(cfg.d_fitness))
 end
 
 function FloatIndividual(st::String)
