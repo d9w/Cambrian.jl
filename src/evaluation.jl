@@ -8,7 +8,7 @@ individual to -Inf.
 """
 function evaluate(e::AbstractEvolution)
     for i in eachindex(e.population)
-        for f in e.cfg.d_fitness
+        for d in 1:e.config.d_fitness
             e.population[i].fitness[d] = -Inf
         end
     end
@@ -17,7 +17,7 @@ end
 "sets the fitness value of each individual to rand()"
 function random_evaluate(e::AbstractEvolution)
     for i in eachindex(e.population)
-        for f in e.cfg.d_fitness
+        for d in 1:e.config.d_fitness
             e.population[i].fitness[d] = rand()
         end
     end
@@ -40,7 +40,7 @@ end
 
 # TODO: dependencies, test distributed
 # function distributed_evaluate!(e::AbstractEvolution; fitness::Function=null_evaluate)
-#     fits = SharedArrays.SharedArray{Float64}(e.cfg["d_fitness"],
+#     fits = SharedArrays.SharedArray{Float64}(e.config["d_fitness"],
 #                                              length(e.population))
 #     @sync @distributed for i in eachindex(e.population)
 #         fits[:, i] = fitness(e.population[i])

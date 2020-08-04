@@ -19,7 +19,7 @@ mutable struct Evolution{T} <: AbstractEvolution
     config::NamedTuple
     logger::CambrianLogger
     population::Array{T}
-    generation::Int
+    gen::Int
 end
 
 function get_best(e::AbstractEvolution)
@@ -49,14 +49,15 @@ function save_gen(e::AbstractEvolution)
 end
 
 function initialize(itype::Type, cfg::NamedTuple)
-    population = Array{itype}(undef, e.cfg.n_population)
+    population = Array{itype}(undef, cfg.n_population)
     for i in 1:cfg.n_population
         population[i] = itype(cfg)
     end
     population
 end
 
-function Evolution{T}(cfg::NamedTuple) where T
+function Evolution{T}(cfg::NamedTuple;
+                      logfile=string("logs/", cfg.id)) where T
     logger = CambrianLogger(logfile)
     population = initialize(T, cfg)
     Evolution(cfg, logger, population, 0)

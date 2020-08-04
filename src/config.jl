@@ -11,7 +11,13 @@ function get_base_config()
      )
 end
 
-function get_config(cfg_file::String)
+function get_config(cfg_file::String; kwargs...)
     cfg = YAML.load_file(cfg_file)
-    (; (Symbol(k) => v for (k,v) in cfg)...)
+    f_cfg = (; (Symbol(k) => v for (k,v) in cfg)...)
+    k_cfg = (; (k=>v for (k, v) in kwargs)...)
+    cfg = merge(f_cfg, k_cfg)
+    if ~(:id in keys(cfg))
+        cfg = merge(cfg, (; id = string(UUIDs.uuid4())))
+    end
+    cfg
 end
