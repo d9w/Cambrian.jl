@@ -11,10 +11,18 @@ function random_selection(pop::Array{Individual})
     pop[rand(1:length(pop))]
 end
 
-function oneplus_populate!(e::AbstractEvolution;
-                           mutation::Function=uniform_mutation,
-                           selection::Function=max_selection,
-                           reset_expert::Bool=false)
+function populate(e::AbstractEvolution; n_elite::Int64=1)
+    pop = sort(e.population, rev=true)
+    elites = deepcopy(pop[1:n_elite])
+    empty!(e.population)
+    for i in eachindex(elites)
+    end
+end
+
+function oneplus_populate(e::AbstractEvolution;
+                          mutation::Function=uniform_mutation,
+                          selection::Function=max_selection,
+                          reset_expert::Bool=false)
     p1 = deepcopy(selection(e.population))
     if reset_expert
         p1.fitness[:] .= -Inf

@@ -17,12 +17,14 @@ cfg = get_config("test.yaml")
     e.evaluate(e)
     fits = [i.fitness[1] for i in e.population]
     e.evaluate(e)
+    # random fitness, all values should change
     for i in eachindex(e.population)
         @test fits[i] != e.population[i].fitness[1]
     end
 
     fits = copy([i.fitness[:] for i in e.population])
     step!(e)
+    # random fitness, all values should change
     for i in eachindex(e.population)
         @test fits[i] != e.population[i].fitness[1]
     end
