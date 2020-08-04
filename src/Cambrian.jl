@@ -9,6 +9,7 @@ import Formatting
 import UUIDs
 import Dates
 
+include("config.jl")
 include("logger.jl")
 include("individual.jl")
 include("evolution.jl")

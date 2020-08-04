@@ -1,8 +1,7 @@
 using Test
 using Cambrian
-using YAML
 
-cfg = YAML.load_file("test.yaml")
+cfg = get_config("test.yaml")
 
 @testset "bool individual" begin
     b_ind = BoolIndividual(cfg)

@@ -12,6 +12,6 @@ function get_base_config()
 end
 
 function get_config(cfg_file::String)
-    cfg = YAML.load_file(cfg)
+    cfg = YAML.load_file(cfg_file)
     (; (Symbol(k) => v for (k,v) in cfg)...)
 end

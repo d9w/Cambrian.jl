@@ -1,11 +1,10 @@
 using Cambrian
 import YAML
 
-cfg = YAML.load_file("test.yaml")
+cfg = get_config("test.yaml")
 
 @testset "Random fitness" begin
-    cfg["d_fitness"] = 1
-    e = Evolution{FloatIndividual}(cfg; id="test")
+    e = Evolution{FloatIndividual}(cfg)
 
     evaluate(e::Evolution) = random_evaluate(e)
     populate(e::Evolution) = oneplus_populate(e)
