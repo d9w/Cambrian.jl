@@ -1,4 +1,4 @@
-export step!, run
+export step!, run!
 
 function generation(e::AbstractEvolution)
     nothing
@@ -19,8 +19,8 @@ function step!(e::AbstractEvolution)
     end
 end
 
-function run(e::AbstractEvolution)
+function run!(e::AbstractEvolution)
     for i in (e.gen+1):e.config.n_gen
-        step(e)
+        step!(e)
     end
 end

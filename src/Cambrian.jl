@@ -13,8 +13,10 @@ include("config.jl")
 include("logger.jl")
 include("individual.jl")
 include("evolution.jl")
-include("populate.jl")
+include("selection.jl")
 include("evaluation.jl")
 include("step.jl")
+include("oneplus.jl")
+# include("ga.jl")
 
 end

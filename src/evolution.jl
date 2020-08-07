@@ -57,7 +57,7 @@ function initialize(itype::Type, cfg::NamedTuple)
 end
 
 function Evolution{T}(cfg::NamedTuple;
-                      logfile=string("logs/", cfg.id)) where T
+                      logfile=string("logs/", cfg.id, ".csv")) where T
     logger = CambrianLogger(logfile)
     population = initialize(T, cfg)
     Evolution(cfg, logger, population, 0)

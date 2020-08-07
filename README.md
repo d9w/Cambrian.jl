@@ -18,7 +18,7 @@ julia> Pkg.add("Cambrian")
 
 Cambrian is used in the following packages:
 + [BERL.jl](https://github.com/d9w/BERL.jl)
-+ [CGP.jl](https://github.com/d9w/CGP.jl)
++ [CartesianGeneticProgramming.jl](https://github.com/d9w/CartesianGeneticProgramming.jl)
 + [MTCGP.jl](https://github.com/d9w/MTCGP.jl)
 + [AGRN.jl](https://github.com/d9w/AGRN.jl)
 
@@ -33,10 +33,11 @@ Some of the code in Cambrian is from or used in my course on [evolutionary compu
 Cambrian is still under heavy development, so expect breaking changes. Pull
 requests are greatly appreciated.
 
-A non-exhaustive list of upcoming features:
+A non-exhaustive list of possible upcoming features:
 + [Documentation](https://github.com/JuliaDocs/Documenter.jl)
 + Abstract evolution type for multiple dispatch
 + Test parallelization
++ CMA-ES
 + NSGA-II style multi-objective
 + Novelty archive
 + co-evolution

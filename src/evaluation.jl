@@ -32,7 +32,7 @@ end
 
 sets the fitness of each individual to the Array of values returned by fitness
 """
-function fitness_evaluate(e::AbstractEvolution; fitness::Function=null_evaluate)
+function fitness_evaluate(e::AbstractEvolution, fitness::Function=null_evaluate)
     for i in eachindex(e.population)
         e.population[i].fitness[:] = fitness(e.population[i])[:]
     end

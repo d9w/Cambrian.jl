@@ -1,26 +1,30 @@
 using YAML
 using Distributed
 using Cambrian
+import Cambrian.mutate
 import Statistics
 
-function test_oneplus_evo(fitness::Function, d_fitness::Int)
-    cfg = YAML.load_file("../cfg/oneplus.yaml")
-    cfg["d_fitness"] = d_fitness
-    e = Cambrian.oneplus(Cambrian.FloatIndividual, cfg, fitness; id="test")
+# mutate must be overriden in the global scope (or use eval)
+cfg = get_config("../cfg/oneplus.yaml")
+mutate(i::Cambrian.FloatIndividual) = Cambrian.mutate(i, cfg.m_rate)
 
-    @test length(e.population) == cfg["n_population"]
+function test_oneplus_evo(fitness::Function, d_fitness::Int)
+    cfg = get_config("../cfg/oneplus.yaml"; d_fitness=d_fitness, id="test")
+    e = OnePlusEvo{Cambrian.FloatIndividual}(cfg, fitness)
+
+    @test length(e.population) == cfg.n_population
     for i in e.population
         @test all(i.fitness .== -Inf)
     end
 
-    e.evaluate(e)
+    evaluate(e)
 
     for i in e.population
         @test i.fitness == fitness(i)
     end
     best = sort(e.population)[end]
 
-    e.populate(e)
+    populate(e)
     new_best = sort(e.population)[end]
     @test !(new_best < best)
     max_count = 0
@@ -37,7 +41,7 @@ function test_oneplus_evo(fitness::Function, d_fitness::Int)
     e.gen += 1
 
     step!(e)
-    @test length(e.population) == cfg["n_population"]
+    @test length(e.population) == cfg.n_population
     for i in e.population
         @test i.fitness == fitness(i)
     end
@@ -49,13 +53,13 @@ function test_oneplus_evo(fitness::Function, d_fitness::Int)
     @timev step!(e)
 
     run!(e)
-    @test length(e.population) == cfg["n_population"]
+    @test length(e.population) == cfg.n_population
     for i in e.population
         @test i.fitness == fitness(i)
     end
     new_best = sort(e.population)[end]
     @test !(new_best < best)
-    @test e.gen == cfg["n_gen"]
+    @test e.gen == cfg.n_gen
 end
 
 @testset "1+λ" begin
