@@ -1,23 +1,53 @@
+export GAEvo, evaluate, populate
 
-function ga_populate!(e::AbstractEvolution;
-                      mutation::Function=uniform_mutation,
-                      crossover::Function=uniform_crossover,
-                      selection::Function=x->tournament_selection(x, e.cfg["tournament_size"]))
+"""
+
+GAEvo implements a classic genetic algorithm. To do this, a new subtype of
+AbstractEvolution is created, GAEvo, and the following functions are
+defined for this type:
+
+evaluate
+populate
+
+the function generation can also be defined. Without specification, the default
+generation function (which is void) is applied.
+"""
+mutable struct GAEvo{T} <: AbstractEvolution
+    config::NamedTuple
+    logger::CambrianLogger
+    population::Array{T}
+    fitness::Function
+    gen::Int
+end
+
+function GAEvo{T}(cfg::NamedTuple, fitness::Function;
+                  logfile=string("logs/", cfg.id, ".csv")) where T
+    logger = CambrianLogger(logfile)
+    population = initialize(T, cfg)
+    GAEvo(cfg, logger, population, fitness, 0)
+end
+
+evaluate(e::GAEvo) = fitness_evaluate(e, e.fitness)
+
+"""
+populate(e::GAEvo)
+"""
+function populate(e::GAEvo)
     new_pop = Array{Individual}(undef, 0)
-    if e.cfg["n_elite"] > 0
+    if e.config.n_elite > 0
         sort!(e.population)
         append!(new_pop,
-                e.population[(length(e.population)-e.cfg["n_elite"]+1):end])
+                e.population[(length(e.population)-e.config.n_elite+1):end])
     end
-    for i in (e.cfg["n_elite"]+1):e.cfg["n_population"]
+    for i in (e.config.n_elite+1):e.config.n_population
         p1 = selection(e.population)
         child = deepcopy(p1)
-        if e.cfg["p_crossover"] > 0 && rand() < e.cfg["p_crossover"]
-            parents = vcat(p1, [selection(e.population) for i in 2:e.cfg["n_parents"]])
+        if e.config.p_crossover > 0 && rand() < e.config.p_crossover
+            parents = vcat(p1, [selection(e.population) for i in 2:e.config.n_parents])
             child = crossover(parents...)
         end
-        if e.cfg["p_mutation"] > 0 && rand() < e.cfg["p_mutation"]
-            child = mutation(child)
+        if e.config.p_mutation > 0 && rand() < e.config.p_mutation
+            child = mutate(child)
         end
         push!(new_pop, child)
     end

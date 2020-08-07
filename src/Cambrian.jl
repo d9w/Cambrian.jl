@@ -17,6 +17,6 @@ include("selection.jl")
 include("evaluation.jl")
 include("step.jl")
 include("oneplus.jl")
-# include("ga.jl")
+include("GA.jl")
 
 end

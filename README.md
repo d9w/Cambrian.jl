@@ -11,7 +11,9 @@ An Evolutionary Computation framework, focused on genetic programming and neuroe
 Cambrian can be installed through the Julia package manager:
 
 ```julia
-julia> Pkg.add("Cambrian")
+julia> ]
+pkg> add Cambrian
+pkg> test Cambrian
 ```
 
 ## Ecosystem

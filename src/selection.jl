@@ -13,3 +13,5 @@ end
 function random_selection(pop::Array{<:Individual})
     pop[rand(1:length(pop))]
 end
+
+selection(pop::Array{<:Individual}) = tournament_selection(pop, 3)

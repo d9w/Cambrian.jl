@@ -1,15 +1,20 @@
 using YAML
 using Distributed
 using Cambrian
+import Cambrian.selection
+import Cambrian.mutate
 @everywhere using Statistics
 
+cfg = get_config("../cfg/ga.yaml")
+selection(pop::Array{<:Individual}) = Cambrian.tournament_selection(pop, cfg.tournament_size)
+mutate(i::Individual) = Cambrian.mutate(i, cfg.m_rate)
+
 function test_ga_evo(fitness::Function, d_fitness::Int)
-    cfg = YAML.load_file("../cfg/ga.yaml")
-    cfg["d_fitness"] = d_fitness
-    e = Cambrian.GA(Cambrian.FloatIndividual, cfg, fitness; id="test")
+    cfg = get_config("../cfg/ga.yaml"; d_fitness=d_fitness, id="test")
+    e = GAEvo{Cambrian.FloatIndividual}(cfg, fitness)
 
     step!(e)
-    @test length(e.population) == cfg["n_population"]
+    @test length(e.population) == cfg.n_population
     for i in e.population
         @test i.fitness == fitness(i)
     end
@@ -20,13 +25,13 @@ function test_ga_evo(fitness::Function, d_fitness::Int)
     @timev step!(e)
 
     run!(e)
-    @test length(e.population) == cfg["n_population"]
+    @test length(e.population) == cfg.n_population
     for i in e.population
         @test i.fitness == fitness(i)
     end
     new_best = sort(e.population)[end]
     @test !(new_best < best)
-    @test e.gen == cfg["n_gen"]
+    @test e.gen == cfg.n_gen
 end
 
 @testset "Genetic Algorithm" begin
