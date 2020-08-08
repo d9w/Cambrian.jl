@@ -4,8 +4,8 @@ abstract type AbstractEvolution end
 
 """
 Every AbstractEvolution subclass needs to have the following fields:
-    log::CambrianLogger
     config::NamedTuple
+    logger::CambrianLogger
     population::Array{<:Individual}
 for config, see get_default_config
 

@@ -22,8 +22,8 @@ Cambrian is intended as a common framework for evolutionary computation
 algorithms in Julia. Algorithm implementations should define a subclass of the
 `AbstractEvolution` type which must have the following fields:
 ```julia
-log::CambrianLogger
 config::NamedTuple
+logger::CambrianLogger
 population::Array{<:Individual}
 ```
 
