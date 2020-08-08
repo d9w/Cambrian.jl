@@ -22,16 +22,16 @@ Cambrian is intended as a common framework for evolutionary computation
 algorithms in Julia. Algorithm implementations should define a subclass of the
 `AbstractEvolution` type which must have the following fields:
 ```julia
-    log::CambrianLogger
-    config::NamedTuple
-    population::Array{<:Individual}
+log::CambrianLogger
+config::NamedTuple
+population::Array{<:Individual}
 ```
 
 Each subclass must also implement
 ```julia
-    populate(e::Evolution)
-    evaluate(e::Evolution)
-    generation(e::Evolution)
+populate(e::<:AbstractEvolution)
+evaluate(e::<:AbstractEvolution)
+generation(e::<:AbstractEvolution)
 ```
 
 An example Genetic Algorithm and the `1+λ` algorithm are provided in `src/GA.jl`
@@ -40,14 +40,14 @@ and `src/oneplus.jl`, with usage examples in `test/ga.jl` and `test/oneplus.jl`.
 Algorithms can also define new `Individual` types or use the provided
 `FloatIndividual` and `BoolIndividual`. New `Individual` types should have the fields:
 ```julia
-    genes::<:AbstractArray
-    fitness::Array{Float64}
+genes::<:AbstractArray
+fitness::Array{Float64}
 ```
 
 and implement the following methods:
 ```julia
-    mutate(i::<:Individual)
-    crossover(parents::Vararg{Individual})
+mutate(i::<:Individual)
+crossover(parents::Vararg{Individual})
 ```
 or make use of the provided methods.
 
