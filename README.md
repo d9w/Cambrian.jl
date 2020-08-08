@@ -82,7 +82,7 @@ requests are greatly appreciated.
 
 A non-exhaustive list of possible upcoming features:
 + better documentation using [Documenter](https://github.com/JuliaDocs/Documenter.jl)
-+ --Abstract evolution type for multiple dispatch--
++ ~~Abstract evolution type for multiple dispatch~~
 + Parallelization and test
 + CMA-ES
 + NSGA-II
