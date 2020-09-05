@@ -1,3 +1,4 @@
+export CambrianLogger
 import Logging: Info, Warn, shouldlog, min_enabled_level, catch_exceptions, handle_message
 
 struct CambrianLogger <: AbstractLogger

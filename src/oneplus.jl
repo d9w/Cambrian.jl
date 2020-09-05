@@ -27,7 +27,7 @@ function OnePlusEvo{T}(cfg::NamedTuple, fitness::Function;
     OnePlusEvo(cfg, logger, population, fitness, 0)
 end
 
-function oneplus_populate(e::OnePlusEvo)
+function oneplus_populate(e::AbstractEvolution)
     p1 = max_selection(e.population)
     e.population[1] = p1
     for i in 2:e.config.n_population
