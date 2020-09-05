@@ -31,7 +31,7 @@ function log_gen(e::AbstractEvolution)
     for d in 1:e.config.d_fitness
         maxs = map(i->i.fitness[d], e.population)
         with_logger(e.logger) do
-            @info Formatting.format("{1:04d} {2:e} {3:e} {4:e}",
+            @info Formatting.format("{1:04d},{2:e},{3:e},{4:e}",
                                     e.gen, maximum(maxs), mean(maxs), std(maxs))
         end
     end

@@ -6,7 +6,6 @@ using Statistics
 using YAML
 using JSON
 import Formatting
-import UUIDs
 import Dates
 
 include("config.jl")

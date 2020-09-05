@@ -1,5 +1,5 @@
 export Individual, BoolIndividual, FloatIndividual, crossover, mutate
-import Base: isless, print
+import Base: isless, show
 
 """
 every Individual subtype needs to implement:
@@ -25,21 +25,17 @@ function isless(i1::Individual, i2::Individual)
 end
 
 function ind_parse(st::String)
-    dict = JSON.Parser.parse(st)
-    for i in 1:length(dict["fitness"])
-        if dict["fitness"][i] == nothing
-            dict["fitness"][i] = -Inf
+    d = JSON.Parser.parse(st)
+    for i in 1:length(d["fitness"])
+        if d["fitness"][i] == nothing
+            d["fitness"][i] = -Inf
         end
     end
-    dict
+    d
 end
 
-function print(io::IO, ind::Individual)
+function show(io::IO, ind::Individual)
     print(io, JSON.json(ind))
-end
-
-function String(ind::Individual)
-    string(ind)
 end
 
 "default crossover method, using uniform crossover for N parents"

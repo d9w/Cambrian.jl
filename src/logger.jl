@@ -34,7 +34,7 @@ function handle_message(logger::CambrianLogger, level, message, _module, group, 
     iob = IOContext(buf, logger.stream)
     levelstr = level == Warn ? "Warning" : string(level)
     msglines = split(chomp(string(message)), '\n')
-    println(iob, Dates.now(), "\tCambrian ", levelstr, " ", msglines[1])
+    println(iob, Dates.now(), ",Cambrian,", levelstr, ",", msglines[1])
     for i in 2:length(msglines)
         println(iob, "│ ", msglines[i])
     end
