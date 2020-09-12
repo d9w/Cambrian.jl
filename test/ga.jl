@@ -1,9 +1,8 @@
 using YAML
-using Distributed
+using Statistics
 using Cambrian
 import Cambrian.selection
 import Cambrian.mutate
-@everywhere using Statistics
 
 cfg = get_config("../cfg/ga.yaml")
 selection(pop::Array{<:Individual}) = Cambrian.tournament_selection(pop, cfg.tournament_size)

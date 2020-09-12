@@ -1,8 +1,7 @@
 using YAML
-using Distributed
+using Statistics
 using Cambrian
 import Cambrian.mutate
-import Statistics
 
 # mutate must be overriden in the global scope (or use eval)
 cfg = get_config("../cfg/oneplus.yaml")
@@ -82,7 +81,7 @@ end
 
     @testset "Multi-objective" begin
         function moo(i::Individual)
-            [Statistics.mean(i.genes), Statistics.std(i.genes), minimum(i.genes)]
+            [mean(i.genes), std(i.genes), minimum(i.genes)]
         end
         test_oneplus_evo(moo, 3)
     end
