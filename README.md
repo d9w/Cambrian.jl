@@ -67,24 +67,37 @@ Cambrian is used in the following packages:
 + [CartesianGeneticProgramming.jl](https://github.com/d9w/CartesianGeneticProgramming.jl)
 + [MTCGP.jl](https://github.com/d9w/MTCGP.jl)
 + [AGRN.jl](https://github.com/d9w/AGRN.jl)
++ [NeuroEvolution.jl](https://github.com/TemplierPaul/NeuroEvolution.jl)
++ [EvolutionaryStrategies.jl](https://github.com/d9w/EvolutionaryStrategies.jl)
 
 There are other evolutionary computation packages in Julia:
 + [Evolutionary.jl](https://github.com/wildart/Evolutionary.jl)
 + [NSGA-II.jl](https://github.com/gsoleilhac/NSGAII.jl/)
++ [CMAEvolutionStrategy.jl](https://github.com/jbrea/CMAEvolutionStrategy.jl)
++ [NaturalES.jl](https://github.com/francescoalemanno/NaturalES.jl)
 
-Some of the code in Cambrian is from or used in my course on [evolutionary
-computation](https://github.com/d9w/evolution).
+There are also excellent optimization libraries in Julia which use evolutionary and other approaches:
++ [BlackBoxOptim.jl](https://github.com/robertfeldt/BlackBoxOptim.jl)
++ [Optim.jl](https://github.com/JuliaNLSolvers/Optim.jl)
+
+`Cambrian` takes inspiration from evolutionary frameworks in other languages, notably:
++ [MABE](https://github.com/Hintzelab/MABE)
++ [DAEP](https://github.com/DEAP/deap)
++ [GAGA](https://github.com/jdisset/gaga/)
+
+`Cambrian` is also used in my course on [evolutionary computation](https://github.com/d9w/evolution).
 
 ## Development
 
-Cambrian is still under heavy development, so expect breaking changes. Pull
-requests are greatly appreciated.
+Cambrian is still under development and the ecosystem is growing. Pull requests
+of bug fixes or features which can be used across multiple algorithms are
+greatly appreciated.
 
 A non-exhaustive list of possible upcoming features:
 + better documentation using [Documenter](https://github.com/JuliaDocs/Documenter.jl)
 + ~~Abstract evolution type for multiple dispatch~~
 + Parallelization and test
-+ CMA-ES
++ ~~CMA-ES~~
 + NSGA-II
 + Novelty archive
 + co-evolution
