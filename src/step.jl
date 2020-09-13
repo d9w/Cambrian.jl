@@ -3,15 +3,24 @@ export step!, run!
 """
 update e.elites with the best individuals from the current population or
 existing elites, based on fitness
-does nothing if e.elites is not defined
+"""
+function elites_generation(e::AbstractEvolution)
+    pop = sort([e.population; e.elites])
+    n_elites = length(e.elites)
+    for i in 1:n_elites
+        e.elites[i] = deepcopy(pop[length(e.population)+i])
+    end
+end
+
+"""
+generation should be used for any additional record keeping necessary in an
+algorithm. It is called after populate and evaluate, so all individuals should
+have genes and fitness reflecting their current state. The default function
+calls elites_generation if e.elites is defined, otherwise does nothing.
 """
 function generation(e::AbstractEvolution)
     if hasfield(typeof(e), :elites)
-        pop = sort([e.population; e.elites])
-        n_elites = length(e.elites)
-        for i in 1:n_elites
-            e.elites[i] = deepcopy(pop[length(e.population)+i])
-        end
+        elites_generation(e)
     end
 end
 
