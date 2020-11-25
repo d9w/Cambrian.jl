@@ -25,7 +25,7 @@ function get_config(cfg_file::String; kwargs...)
     end
     # generate id, use date if no existing id
     if ~(:id in keys(cfg))
-        cfg["id"] = string(Dates.now())
+        cfg["id"] = Dates.format(Dates.now(), "yyyymmddHHMMSSsss")
     end
     get_config(cfg)
 end
