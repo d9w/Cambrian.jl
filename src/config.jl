@@ -8,7 +8,7 @@ function get_base_config()
      n_gen = 10,         # number of generations
      log_gen = 1,        # log every x generations
      save_gen = 1,       # save population every x generation
-     id = string(Dates.now()) # run id
+     id = Dates.format(Dates.now(), "yyyymmddHHMMSSsss") # run id
      )
 end
 
