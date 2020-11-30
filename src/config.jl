@@ -8,7 +8,7 @@ function get_base_config()
      n_gen = 10,         # number of generations
      log_gen = 1,        # log every x generations
      save_gen = 1,       # save population every x generation
-     id = string(Dates.now()) # run id
+     id = Dates.format(Dates.now(), "yyyymmddHHMMSSsss") # run id
      )
 end
 
@@ -25,7 +25,7 @@ function get_config(cfg_file::String; kwargs...)
     end
     # generate id, use date if no existing id
     if ~(:id in keys(cfg))
-        cfg["id"] = string(Dates.now())
+        cfg["id"] = Dates.format(Dates.now(), "yyyymmddHHMMSSsss")
     end
     get_config(cfg)
 end
