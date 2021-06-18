@@ -72,9 +72,9 @@ tests. Intended usage of Cambrian is to subclass the AbstractEvolution type and
 define the evolutionary methods which define the intended algorithm.
 """
 function Evolution{T}(cfg::NamedTuple;
-                      logfile=string("logs/", cfg.id, ".csv")) where T
+                      logfile=string("logs/", cfg.id, ".csv"), kwargs...) where T
     logger = CambrianLogger(logfile)
-    population = initialize(T, cfg)
+    population = initialize(T, cfg; kwargs...)
     Evolution(cfg, logger, population, 0)
 end
 
