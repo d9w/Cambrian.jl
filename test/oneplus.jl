@@ -7,6 +7,7 @@ import Cambrian.mutate
 cfg = get_config("../cfg/oneplus.yaml")
 mutate(i::Cambrian.FloatIndividual) = Cambrian.mutate(i, cfg.m_rate)
 
+
 function test_oneplus_evo(fitness::Function, d_fitness::Int)
     cfg = get_config("../cfg/oneplus.yaml"; d_fitness=d_fitness, id="test")
     e = OnePlusEvo{Cambrian.FloatIndividual}(cfg, fitness)
@@ -16,14 +17,14 @@ function test_oneplus_evo(fitness::Function, d_fitness::Int)
         @test all(i.fitness .== -Inf)
     end
 
-    evaluate(e)
+    Cambrian.evaluate(e)
 
     for i in e.population
         @test i.fitness == fitness(i)
     end
     best = sort(e.population)[end]
 
-    populate(e)
+    Cambrian.populate(e)
     new_best = sort(e.population)[end]
     @test !(new_best < best)
     max_count = 0
