@@ -8,7 +8,7 @@ cfg = get_config("../cfg/ga.yaml")
 selection(pop::Array{<:Individual}) = Cambrian.tournament_selection(pop, cfg.tournament_size)
 mutate(i::Individual) = Cambrian.mutate(i, cfg.m_rate)
 
-function test_ga_evo(fitness::Function, d_fitness::Int)
+function test_ga_evo(fitness::Function, d_fitness::Int; test_improvement=true)
     cfg = get_config("../cfg/ga.yaml"; d_fitness=d_fitness, id="test")
     e = GAEvo{Cambrian.FloatIndividual}(cfg, fitness)
 
@@ -29,7 +29,11 @@ function test_ga_evo(fitness::Function, d_fitness::Int)
         @test i.fitness == fitness(i)
     end
     new_best = sort(e.population)[end]
-    @test !(new_best < best)
+    if test_improvement
+        @test !(new_best < best)
+    else
+        comparison = new_best < best  # for coverage
+    end
     @test e.gen == cfg.n_gen
 end
 
@@ -55,6 +59,6 @@ end
         function moo(i::Individual)
             [mean(i.genes), std(i.genes), minimum(i.genes)]
         end
-        test_ga_evo(moo, 3)
+        test_ga_evo(moo, 3, test_improvement=false)
     end
 end
