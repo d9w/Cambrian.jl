@@ -24,7 +24,7 @@ function get_config(cfg_file::String; kwargs...)
         cfg[String(k)] = v
     end
     # generate id, use date if no existing id
-    if ~(:id in keys(cfg))
+    if ~(:id in keys(cfg)) && ~("id" in keys(cfg))
         cfg["id"] = string(Dates.now())
     end
     get_config(cfg)
