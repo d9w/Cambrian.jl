@@ -3,11 +3,12 @@ using Statistics
 using Cambrian
 import Cambrian.mutate
 
+
 # mutate must be overriden in the global scope (or use eval)
 cfg = get_config("../cfg/oneplus.yaml")
 mutate(i::Cambrian.FloatIndividual) = Cambrian.mutate(i, cfg.m_rate)
 
-function test_oneplus_evo(fitness::Function, d_fitness::Int)
+function test_oneplus_evo(fitness::Function, d_fitness::Int; test_improvement=true)
     cfg = get_config("../cfg/oneplus.yaml"; d_fitness=d_fitness, id="test")
     e = OnePlusEvo{Cambrian.FloatIndividual}(cfg, fitness)
 
@@ -16,14 +17,14 @@ function test_oneplus_evo(fitness::Function, d_fitness::Int)
         @test all(i.fitness .== -Inf)
     end
 
-    evaluate(e)
+    Cambrian.evaluate(e)
 
     for i in e.population
         @test i.fitness == fitness(i)
     end
     best = sort(e.population)[end]
 
-    populate(e)
+    Cambrian.populate(e)
     new_best = sort(e.population)[end]
     @test !(new_best < best)
     max_count = 0
@@ -45,7 +46,11 @@ function test_oneplus_evo(fitness::Function, d_fitness::Int)
         @test i.fitness == fitness(i)
     end
     new_best = sort(e.population)[end]
-    @test !(new_best < best)
+    if test_improvement
+        @test !(new_best < best)
+    else
+        comparison = new_best < best  # for coverage
+    end
     @test e.gen == 2
 
     print("1+λ step ", string(fitness))
@@ -57,7 +62,11 @@ function test_oneplus_evo(fitness::Function, d_fitness::Int)
         @test i.fitness == fitness(i)
     end
     new_best = sort(e.population)[end]
-    @test !(new_best < best)
+    if test_improvement
+        @test !(new_best < best)
+    else
+        comparison = new_best < best  # for coverage
+    end
     @test e.gen == cfg.n_gen
 end
 
@@ -83,6 +92,6 @@ end
         function moo(i::Individual)
             [mean(i.genes), std(i.genes), minimum(i.genes)]
         end
-        test_oneplus_evo(moo, 3)
+        test_oneplus_evo(moo, 3, test_improvement=false)
     end
 end

@@ -51,10 +51,15 @@ function save_gen(e::AbstractEvolution)
 end
 
 "create all members of the first generation"
-function initialize(itype::Type, cfg::NamedTuple)
+function initialize(itype::Type, cfg::NamedTuple; kwargs...)
     population = Array{itype}(undef, cfg.n_population)
+    kwargs_dict = Dict(kwargs)
     for i in 1:cfg.n_population
-        population[i] = itype(cfg)
+        if haskey(kwargs_dict, :init_function)
+            population[i] = kwargs_dict[:init_function](cfg)
+        else
+            population[i] = itype(cfg)
+        end
     end
     population
 end
@@ -67,9 +72,9 @@ tests. Intended usage of Cambrian is to subclass the AbstractEvolution type and
 define the evolutionary methods which define the intended algorithm.
 """
 function Evolution{T}(cfg::NamedTuple;
-                      logfile=string("logs/", cfg.id, ".csv")) where T
+                      logfile=string("logs/", cfg.id, ".csv"), kwargs...) where T
     logger = CambrianLogger(logfile)
-    population = initialize(T, cfg)
+    population = initialize(T, cfg; kwargs...)
     Evolution(cfg, logger, population, 0)
 end
 
