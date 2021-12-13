@@ -40,11 +40,13 @@ end
 
 "save the population in gens/"
 function save_gen(e::AbstractEvolution)
-    path = Formatting.format("gens/{1}/{2:04d}", e.config.id, e.gen)
+    path = joinpath("gens", String(e.config.id))
+    path = joinpath(path, Formatting.format("{1:04d}", e.gen))
     mkpath(path)
     sort!(e.population)
     for i in eachindex(e.population)
-        f = open(Formatting.format("{1}/{2:04d}.dna", path, i), "w+")
+        fname = joinpath(path, Formatting.format("{1:04d}.dna", i))
+        f = open(fname, "w+")
         write(f, string(e.population[i]))
         close(f)
     end
@@ -72,7 +74,7 @@ tests. Intended usage of Cambrian is to subclass the AbstractEvolution type and
 define the evolutionary methods which define the intended algorithm.
 """
 function Evolution{T}(cfg::NamedTuple;
-                      logfile=string("logs/", cfg.id, ".csv"), kwargs...) where T
+                      logfile=joinpath("logs", string(cfg.id, ".csv")), kwargs...) where T
     logger = CambrianLogger(logfile)
     population = initialize(T, cfg; kwargs...)
     Evolution(cfg, logger, population, 0)
